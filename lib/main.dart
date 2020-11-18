@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'widgets.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,10 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'openDoc',
       theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
+          backgroundColor: Color(0xff005040),
+          textTheme: GoogleFonts.ubuntuTextTheme(
+            Theme.of(context).textTheme,
+          )),
       home: Home(),
     );
   }
@@ -21,6 +26,34 @@ class MyApp extends StatelessWidget {
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      backgroundColor: Color(0xff005f40),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Center(
+            child: Container(
+              height: 320,
+              width: 320,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('asset/logo.png'), fit: BoxFit.fill)),
+            ),
+          ),
+          SizedBox(
+            height: 150,
+          ),
+          SignInBox(
+            text: 'Register',
+          ),
+          SignInBox(
+            text: 'Sign in',
+          ),
+          SizedBox(
+            height: 18,
+          )
+        ],
+      ),
+    );
   }
 }
