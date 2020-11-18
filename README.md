@@ -1,4 +1,4 @@
-# opendoc
+# openDoc
 
 ## CodeHeat Team07
 - Prakash Kumar

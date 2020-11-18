@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:opendoc/registerScreen.dart';
 
+import 'loginScreen.dart';
 import 'widgets.dart';
 
 void main() {
@@ -14,7 +16,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'openDoc',
       theme: ThemeData(
-          backgroundColor: Color(0xff005040),
+          accentColor: Color(0xff005f40),
+          backgroundColor: Color(0xff005f40),
           textTheme: GoogleFonts.ubuntuTextTheme(
             Theme.of(context).textTheme,
           )),
@@ -43,11 +46,33 @@ class Home extends StatelessWidget {
           SizedBox(
             height: 150,
           ),
-          SignInBox(
-            text: 'Register',
+          GestureDetector(
+            child: SignInBox(
+              text: 'Register',
+            ),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Register()));
+            },
           ),
-          SignInBox(
-            text: 'Sign in',
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                child: Text('Already signed up? login here.',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    )),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LogIn()));
+                },
+              ),
+              SizedBox(
+                width: 24,
+              ),
+            ],
           ),
           SizedBox(
             height: 18,
