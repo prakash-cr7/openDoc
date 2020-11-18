@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "664814485516",
+    "firebase_url": "https://open-doc-d0fd8.firebaseio.com",
+    "project_id": "open-doc-d0fd8",
+    "storage_bucket": "open-doc-d0fd8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664814485516:android:d9ce9a9d60780258d32e29",
+        "android_client_info": {
+          "package_name": "com.prakash.opendoc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "664814485516-qj74mq998a9svun6eqn3lum8oc3j8f6s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.prakash.opendoc",
+            "certificate_hash": "89c4113ddaee0d9489dfcc172273ca216fe77894"
+          }
+        },
+        {
+          "client_id": "664814485516-45hpbiajj3pqmc33c639rssnemftm4ak.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6wWqPasj41qLlByAQIgKvjqMW5XA4xPI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "664814485516-45hpbiajj3pqmc33c639rssnemftm4ak.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
