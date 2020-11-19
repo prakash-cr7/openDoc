@@ -49,6 +49,7 @@ class Home extends StatelessWidget {
           GestureDetector(
             child: SignInBox(
               text: 'Register',
+              backgroundColor: Colors.green,
             ),
             onTap: () {
               Navigator.push(

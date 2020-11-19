@@ -21,8 +21,9 @@ const inputDecoration = InputDecoration(
 );
 
 class SignInBox extends StatelessWidget {
-  SignInBox({this.text});
+  SignInBox({this.text, this.backgroundColor = kAccentColorDark});
   final String text;
+  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class SignInBox extends StatelessWidget {
       child: Container(
         height: 60,
         decoration: BoxDecoration(
-            color: Colors.green,
+            color: backgroundColor,
             borderRadius: BorderRadius.circular(32),
             boxShadow: [
               BoxShadow(
