@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:opendoc/chatScreen.dart';
 import 'package:opendoc/joinUsScreen.dart';
 import 'package:opendoc/updatsScreen.dart';
 import 'package:opendoc/widgets.dart';
+
+import 'mainScreenBody.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -26,6 +27,8 @@ class _MainScreenState extends State<MainScreen> {
     var body = screens[selectedIndex];
     return Scaffold(
       appBar: AppBar(
+        title: Text('openDoc'),
+        centerTitle: true,
         backgroundColor: kAccentColorDark,
         elevation: 0,
       ),
@@ -52,75 +55,6 @@ class _MainScreenState extends State<MainScreen> {
       ),
       drawer: Drawer(),
       body: body,
-    );
-  }
-}
-
-class MainScreenBody extends StatelessWidget {
-  const MainScreenBody({
-    Key key,
-    @required this.size,
-  }) : super(key: key);
-
-  final Size size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: size.height * 0.2,
-          decoration: BoxDecoration(
-              color: kAccentColorDark,
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(32),
-                  bottomRight: Radius.circular(32))),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 18, top: 18),
-                    child: Text(
-                      'Hello',
-                      style:
-                          GoogleFonts.acme(fontSize: 30, color: Colors.white),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 18),
-                    child: Text(
-                      'Prakash!',
-                      style:
-                          GoogleFonts.acme(fontSize: 40, color: Colors.white),
-                    ),
-                  )
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  height: 100,
-                  width: 100,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('asset/logo1.png'),
-                          fit: BoxFit.fill)),
-                ),
-              )
-            ],
-          ),
-        ),
-        SizedBox(
-          height: size.height * 0.52,
-        ),
-        SignInBox(
-          text: 'Request Appointment',
-        )
-      ],
     );
   }
 }
