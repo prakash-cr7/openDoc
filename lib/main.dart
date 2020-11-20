@@ -2,7 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opendoc/registerScreen.dart';
+import 'package:provider/provider.dart';
 
+import 'dataProvider.dart';
 import 'loginScreen.dart';
 import 'widgets.dart';
 
@@ -16,15 +18,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'openDoc',
-      theme: ThemeData(
-          accentColor: Color(0xff005f40),
-          backgroundColor: Color(0xff005f40),
-          textTheme: GoogleFonts.ubuntuTextTheme(
-            Theme.of(context).textTheme,
-          )),
-      home: Home(),
+    return ChangeNotifierProvider<DataProvider>(
+      create: (context) => DataProvider(),
+      child: MaterialApp(
+        title: 'openDoc',
+        theme: ThemeData(
+            accentColor: Color(0xff005f40),
+            backgroundColor: Color(0xff005f40),
+            textTheme: GoogleFonts.ubuntuTextTheme(
+              Theme.of(context).textTheme,
+            )),
+        home: Home(),
+      ),
     );
   }
 }

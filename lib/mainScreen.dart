@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:opendoc/chatScreen.dart';
+import 'package:opendoc/chatListScreen.dart';
 import 'package:opendoc/joinUsScreen.dart';
 import 'package:opendoc/updatsScreen.dart';
 import 'package:opendoc/widgets.dart';
@@ -22,7 +22,7 @@ class _MainScreenState extends State<MainScreen> {
       MainScreenBody(size: size),
       UpdateScreen(),
       JoinUsScreen(),
-      ChatScreen()
+      ChatListScreen()
     ];
     var body = screens[selectedIndex];
     return Scaffold(

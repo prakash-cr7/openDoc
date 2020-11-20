@@ -1,7 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:opendoc/verifiedDocScreen.dart';
 import 'package:opendoc/widgets.dart';
+import 'package:provider/provider.dart';
 
-class JoinUsScreen extends StatelessWidget {
+import 'dataProvider.dart';
+
+class JoinUsScreen extends StatefulWidget {
+  @override
+  _JoinUsScreenState createState() => _JoinUsScreenState();
+}
+
+class _JoinUsScreenState extends State<JoinUsScreen> {
+  var _fireStore = FirebaseFirestore.instance;
+  bool verified;
+  String email;
+
   Future<Widget> alert(BuildContext context) {
     return showDialog(
         context: context,
@@ -19,7 +33,10 @@ class JoinUsScreen extends StatelessWidget {
                     style: TextStyle(color: kAccentColorDark),
                   )),
               TextButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    await _fireStore
+                        .collection('verification')
+                        .add({'email': email});
                     Navigator.pop(context);
                   },
                   child: Text(
@@ -32,50 +49,62 @@ class JoinUsScreen extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    verified =
+        Provider.of<DataProvider>(context, listen: false).getVerification();
+    email = Provider.of<DataProvider>(context, listen: false).getEmail();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(
-            child: Text(
-          'Join us as a Doctor and help the community...',
-          style: TextStyle(
-            fontSize: 18,
-          ),
-        )),
-        SizedBox(
-          height: 10,
-        ),
-        GestureDetector(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 65),
-            child: Container(
-              height: 60,
-              decoration: BoxDecoration(
-                  color: kAccentColorDark,
-                  borderRadius: BorderRadius.circular(32),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(2.0, 2.0),
-                      blurRadius: 5,
-                    )
-                  ]),
-              child: Center(
+    return verified
+        ? DocScreen()
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
                   child: Text(
-                'Request verification',
+                'Join us as a Doctor and help the community...',
                 style: TextStyle(
-                    fontSize: 22,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500),
+                  fontSize: 18,
+                ),
               )),
-            ),
-          ),
-          onTap: () {
-            alert(context);
-          },
-        )
-      ],
-    );
+              SizedBox(
+                height: 10,
+              ),
+              GestureDetector(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 65),
+                  child: Container(
+                    height: 60,
+                    decoration: BoxDecoration(
+                        color: kAccentColorDark,
+                        borderRadius: BorderRadius.circular(32),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black,
+                            offset: Offset(2.0, 2.0),
+                            blurRadius: 5,
+                          )
+                        ]),
+                    child: Center(
+                        child: Text(
+                      'Request verification',
+                      style: TextStyle(
+                          fontSize: 22,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500),
+                    )),
+                  ),
+                ),
+                onTap: () {
+                  alert(context);
+                },
+              )
+            ],
+          );
   }
 }
