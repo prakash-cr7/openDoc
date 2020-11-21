@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:opendoc/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'mainScreen.dart';
 
@@ -13,11 +14,17 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  SharedPreferences _sharedPreferences;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   var _fireStore = FirebaseFirestore.instance;
   String name, _email, _password, deviceToken;
   bool shuwSpinner = false;
+
+  void intSP() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
+    getToken();
+  }
 
   Future<void> addUserToDatabase(
     String email,
@@ -41,7 +48,7 @@ class _RegisterState extends State<Register> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getToken();
+    intSP();
   }
 
   @override
@@ -133,6 +140,8 @@ class _RegisterState extends State<Register> {
                       shuwSpinner = true;
                     });
                     try {
+                      _sharedPreferences
+                          .setStringList('userInfo', [_email, _password]);
                       final newUser =
                           await _firebaseAuth.createUserWithEmailAndPassword(
                               email: _email, password: _password);

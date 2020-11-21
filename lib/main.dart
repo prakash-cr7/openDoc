@@ -1,11 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:opendoc/registerScreen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dataProvider.dart';
 import 'loginScreen.dart';
+import 'mainScreen.dart';
 import 'widgets.dart';
 
 void main() async {
@@ -34,7 +37,47 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  SharedPreferences _sharedPreferences;
+
+  void intSP() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
+    logIn();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    intSP();
+  }
+
+  void logIn() {
+    var data = _sharedPreferences.getStringList('userInfo');
+    var currentUser = _firebaseAuth.currentUser;
+    if (data[0] != null &&
+        data[1] != null &&
+        currentUser != null &&
+        currentUser.email == data[0]) {
+      var email = data[0];
+      var password = data[1];
+      try {
+        _firebaseAuth.signInWithEmailAndPassword(
+            email: email, password: password);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MainScreen()));
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

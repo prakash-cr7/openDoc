@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:opendoc/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'mainScreen.dart';
 
@@ -14,7 +15,19 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
+  SharedPreferences _sharedPreferences;
   bool showSpinner = false;
+
+  void initSP() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initSP();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +112,8 @@ class _LogInState extends State<LogIn> {
                           .signInWithEmailAndPassword(
                               email: LogIn._email, password: LogIn._password);
                       if (loginUser != null) {
+                        _sharedPreferences.setStringList(
+                            'userInfo', [LogIn._email, LogIn._password]);
                         Navigator.push(
                             context,
                             MaterialPageRoute(

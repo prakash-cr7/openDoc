@@ -104,7 +104,7 @@ class ContentBox extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                margin: EdgeInsets.all(20),
+                margin: EdgeInsets.all(24),
                 decoration: BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage(imageLink), fit: BoxFit.fitHeight),
