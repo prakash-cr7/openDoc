@@ -64,13 +64,20 @@ class _ConvoScreenState extends State<ConvoScreen> {
                   );
                   messageWidget.add(messageTextWidget);
                 }
-                return Expanded(
-                  child: ListView(
-                    reverse: true,
-                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                    children: messageWidget,
-                  ),
-                );
+                return messageWidget.length == 0
+                    ? Center(
+                        child: Text(
+                        widget.chat.data()['description'],
+                        style: TextStyle(color: kAccentColorDark, fontSize: 18),
+                      ))
+                    : Expanded(
+                        child: ListView(
+                          reverse: true,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 10),
+                          children: messageWidget,
+                        ),
+                      );
               },
             ),
             Container(

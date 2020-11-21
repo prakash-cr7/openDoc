@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const Color kAccentColorDark = Color(0xff005f40);
 const int kHorizontalPadding = 24;
@@ -71,8 +72,15 @@ class SignInBox extends StatelessWidget {
 }
 
 class ContentBox extends StatelessWidget {
-  ContentBox({this.left = 0, this.bottom = 0, this.right = 0, this.top = 0});
+  ContentBox(
+      {this.left = 0,
+      this.bottom = 0,
+      this.right = 0,
+      this.top = 0,
+      this.text,
+      this.imageLink});
   final double right, left, top, bottom;
+  final String imageLink, text;
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +99,27 @@ class ContentBox extends StatelessWidget {
                 blurRadius: 3,
               )
             ]),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage(imageLink), fit: BoxFit.fitHeight),
+                ),
+              ),
+            ),
+            Text(
+              text,
+              style: GoogleFonts.acme(fontSize: 24, color: kAccentColorDark),
+            ),
+            SizedBox(
+              height: 6,
+            )
+          ],
+        ),
       ),
     );
   }

@@ -25,7 +25,7 @@ class _MainScreenBodyState extends State<MainScreenBody> {
   String sicknessTypeHint = 'Sickness Type';
   String genderHint = 'Select Gender';
   bool verified;
-  String sicknessType, gender, age, description, phone, name = '', email;
+  String sicknessType, gender, age, description, name = '', email;
 
   Future<void> getUser() async {
     var currentUser = _firebaseAuth.currentUser;
@@ -36,7 +36,6 @@ class _MainScreenBodyState extends State<MainScreenBody> {
           .where('email', isEqualTo: email)
           .get();
       var data = userSnapshot.docs[0].data();
-      // userDocId = userSnapshot.docs[0].id;
       Provider.of<DataProvider>(context, listen: false).setEmail(email);
       name = data['name'];
       Provider.of<DataProvider>(context, listen: false).setName(name);
@@ -48,13 +47,12 @@ class _MainScreenBodyState extends State<MainScreenBody> {
   }
 
   Future<void> createAppointment(
-      String sicknessType, gender, age, description, phone, name, email) async {
+      String sicknessType, gender, age, description, name, email) async {
     if (!verified) {
       if (sicknessType != null &&
           gender != null &&
           age != null &&
-          description != null &&
-          phone != null) {
+          description != null) {
         await _fireStore.collection('appointments').add({
           'timeStamp': DateTime.now(),
           'status': 'pending',
@@ -62,7 +60,6 @@ class _MainScreenBodyState extends State<MainScreenBody> {
           'gender': gender,
           'age': age,
           'description': description,
-          'phone': phone,
           'name': name,
           'email': email
         });
@@ -82,131 +79,127 @@ class _MainScreenBodyState extends State<MainScreenBody> {
     return showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text('Enter all details'),
-            content: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                      padding: EdgeInsets.symmetric(horizontal: 24),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(32),
-                        border: Border.all(color: kAccentColorDark),
-                      ),
-                      height: 60,
-                      child: DropdownButton<String>(
-                          hint: Text(
-                            sicknessTypeHint,
-                          ),
-                          items: [
-                            DropdownMenuItem<String>(
-                                child: Text('Allergies'), value: 'Allergies'),
-                            DropdownMenuItem<String>(
-                                child: Text('Colds'), value: 'Colds'),
-                            DropdownMenuItem<String>(
-                                child: Text('Diarrhea'), value: 'Diarrhea'),
-                            DropdownMenuItem<String>(
-                                child: Text('Headaches'), value: 'Headaches'),
-                            DropdownMenuItem<String>(
-                                child: Text('Other'), value: 'Other'),
-                          ],
-                          onChanged: (value) {
-                            setState(() {
-                              sicknessTypeHint = value;
-                              sicknessType = value;
-                            });
-                          })),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                      padding: EdgeInsets.symmetric(horizontal: 24),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(32),
-                        border: Border.all(color: kAccentColorDark),
-                      ),
-                      height: 60,
-                      child: DropdownButton<String>(
-                          hint: Text(
-                            genderHint,
-                          ),
-                          items: [
-                            DropdownMenuItem<String>(
-                                child: Text('Male'), value: 'Male'),
-                            DropdownMenuItem<String>(
-                                child: Text('Female'), value: 'Female')
-                          ],
-                          onChanged: (value) {
-                            setState(() {
-                              genderHint = value;
-                              gender = value;
-                            });
-                          })),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  TextField(
-                    decoration: inputDecoration.copyWith(hintText: 'Enter age'),
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      age = value.toString();
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  TextField(
-                    // style: TextStyle(height: 6, fontSize: 18),
-                    decoration:
-                        inputDecoration.copyWith(hintText: 'Short description'),
-                    keyboardType: TextInputType.text,
-                    onChanged: (value) {
-                      description = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  TextField(
-                    decoration:
-                        inputDecoration.copyWith(hintText: 'Phone number'),
-                    keyboardType: TextInputType.phone,
-                    onChanged: (value) {
-                      phone = value.toString();
-                    },
-                  )
-                ],
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              title: Text('Enter all details'),
+              content: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                        padding: EdgeInsets.symmetric(horizontal: 24),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(32),
+                          border: Border.all(color: kAccentColorDark),
+                        ),
+                        height: 60,
+                        child: DropdownButton<String>(
+                            hint: Text(
+                              sicknessTypeHint,
+                            ),
+                            items: [
+                              DropdownMenuItem<String>(
+                                  child: Text('Allergies'), value: 'Allergies'),
+                              DropdownMenuItem<String>(
+                                  child: Text('Colds'), value: 'Colds'),
+                              DropdownMenuItem<String>(
+                                  child: Text('Diarrhea'), value: 'Diarrhea'),
+                              DropdownMenuItem<String>(
+                                  child: Text('Headaches'), value: 'Headaches'),
+                              DropdownMenuItem<String>(
+                                  child: Text('Other'), value: 'Other'),
+                            ],
+                            onChanged: (value) {
+                              setState(() {
+                                sicknessTypeHint = value;
+                                sicknessType = value;
+                              });
+                            })),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                        padding: EdgeInsets.symmetric(horizontal: 24),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(32),
+                          border: Border.all(color: kAccentColorDark),
+                        ),
+                        height: 60,
+                        child: DropdownButton<String>(
+                            hint: Text(
+                              genderHint,
+                            ),
+                            items: [
+                              DropdownMenuItem<String>(
+                                  child: Text('Male'), value: 'Male'),
+                              DropdownMenuItem<String>(
+                                  child: Text('Female'), value: 'Female')
+                            ],
+                            onChanged: (value) {
+                              setState(() {
+                                genderHint = value;
+                                gender = value;
+                              });
+                            })),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      decoration:
+                          inputDecoration.copyWith(hintText: 'Enter age'),
+                      keyboardType: TextInputType.number,
+                      onChanged: (value) {
+                        age = value.toString();
+                      },
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                      decoration: inputDecoration.copyWith(
+                          hintText: 'Short description'),
+                      keyboardType: TextInputType.text,
+                      onChanged: (value) {
+                        description = value;
+                      },
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    'Cancel',
-                    style: TextStyle(color: kAccentColorDark),
-                  )),
-              TextButton(
-                  onPressed: () {
-                    createAppointment(sicknessType, gender, age, description,
-                        phone, name, email);
-                    sicknessType = null;
-                    description = null;
-                    phone = null;
-                    gender = null;
-                    age = null;
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    'Request',
-                    style: TextStyle(color: kAccentColorDark),
-                  )),
-            ],
-          );
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Cancel',
+                      style: TextStyle(color: kAccentColorDark),
+                    )),
+                TextButton(
+                    onPressed: () {
+                      createAppointment(
+                          sicknessType, gender, age, description, name, email);
+                      sicknessType = null;
+                      description = null;
+                      gender = null;
+                      age = null;
+                      sicknessTypeHint = 'Sickness Type';
+                      genderHint = 'Select Gender';
+                      setState(() {});
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Request',
+                      style: TextStyle(color: kAccentColorDark),
+                    )),
+              ],
+            );
+          });
         });
   }
 
@@ -281,19 +274,27 @@ class _MainScreenBodyState extends State<MainScreenBody> {
                     childAspectRatio: 1,
                     children: [
                       ContentBox(
+                        text: 'Lab test',
+                        imageLink: 'asset/blood-test.png',
                         top: 10,
                         left: 16,
                       ),
                       ContentBox(
+                        text: 'Therapy',
+                        imageLink: 'asset/massage.png',
                         left: 10,
                         right: 16,
                         top: 10,
                       ),
                       ContentBox(
+                        text: 'Personal care',
+                        imageLink: 'asset/medicine.png',
                         bottom: 10,
                         left: 16,
                       ),
                       ContentBox(
+                        text: 'Mental health',
+                        imageLink: 'asset/brain.png',
                         bottom: 10,
                         left: 10,
                         right: 16,
