@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'dataProvider.dart';
+import 'widgets.dart';
 
 class UpdateScreen extends StatefulWidget {
   @override
@@ -45,9 +46,16 @@ class _UpdateScreenState extends State<UpdateScreen> {
           );
           items.add(item);
         }
-        return ListView(
-          children: items,
-        );
+        return items.length == 0
+            ? Center(
+                child: Text(
+                  'Your notifications will appear here',
+                  style: TextStyle(color: kAccentColorDark, fontSize: 16),
+                ),
+              )
+            : ListView(
+                children: items,
+              );
       },
     );
   }

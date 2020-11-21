@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:opendoc/convoScreen.dart';
 import 'package:opendoc/widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -34,15 +35,24 @@ class _ForDocState extends State<ForDoc> {
         List<Widget> items = [];
         for (var chat in chats) {
           String name = chat.data()['patientName'];
+          String email = chat.data()['patientEmail'];
           final Widget item = ChatTile(
             name: name,
-            onTap: () {},
+            email: email,
+            chat: chat,
           );
           items.add(item);
         }
-        return ListView(
-          children: items,
-        );
+        return items.length == 0
+            ? Center(
+                child: Text(
+                  'Your chats will appear here',
+                  style: TextStyle(color: kAccentColorDark, fontSize: 16),
+                ),
+              )
+            : ListView(
+                children: items,
+              );
       },
     );
   }
@@ -77,38 +87,62 @@ class _ForPatientState extends State<ForPatient> {
         List<Widget> items = [];
         for (var chat in chats) {
           String name = chat.data()['doctorName'];
+          String email = chat.data()['doctorEmail'];
           final Widget item = ChatTile(
             name: name,
-            onTap: () {},
+            email: email,
           );
           items.add(item);
         }
-        return ListView(
-          children: items,
-        );
+        return items.length == 0
+            ? Center(
+                child: Text(
+                  'Your chats will appear here',
+                  style: TextStyle(color: kAccentColorDark, fontSize: 16),
+                ),
+              )
+            : ListView(
+                children: items,
+              );
       },
     );
   }
 }
 
 class ChatTile extends StatelessWidget {
-  ChatTile({this.name, this.onTap});
+  ChatTile({this.name, this.chat, this.email = ''});
 
-  final String name;
-  final Function onTap;
+  final String name, email;
+  final chat;
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-        tileColor: Colors.green[100],
-        leading: CircleAvatar(
-          backgroundColor: kAccentColorDark,
-          child: Text(
-            name[0],
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-        title: Text(name),
-        onTap: onTap);
+    return Column(
+      children: [
+        ListTile(
+            subtitle: Text(email),
+            tileColor: Colors.green[100],
+            leading: CircleAvatar(
+              backgroundColor: kAccentColorDark,
+              child: Text(
+                name[0],
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            title: Text(name),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ConvoScreen(
+                            chat: chat,
+                          )));
+            }),
+        Divider(
+          height: 1,
+          color: kAccentColorDark,
+        )
+      ],
+    );
   }
 }

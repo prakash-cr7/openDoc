@@ -63,9 +63,16 @@ class _DocScreenState extends State<DocScreen> {
           );
           items.add(item);
         }
-        return ListView(
-          children: items,
-        );
+        return items.length == 0
+            ? Center(
+                child: Text(
+                  'Appointment requests will appear here',
+                  style: TextStyle(color: kAccentColorDark, fontSize: 16),
+                ),
+              )
+            : ListView(
+                children: items,
+              );
       },
     );
   }
@@ -105,29 +112,34 @@ class VerifiedDocScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 1),
-      child: ListTile(
-        tileColor: Colors.green[100],
-        leading: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(sicknessType),
-            SizedBox(
-              height: 4,
-            ),
-            Text('$gender $age')
-          ],
+    return Column(
+      children: [
+        ListTile(
+          tileColor: Colors.green[100],
+          leading: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(sicknessType),
+              SizedBox(
+                height: 4,
+              ),
+              Text('$gender $age')
+            ],
+          ),
+          title: Text('Appointment request by $name'),
+          trailing: TextButton(
+            child: Text('Accept'),
+            onPressed: () {
+              alert(context);
+            },
+          ),
         ),
-        title: Text('Appointment request by $name'),
-        trailing: TextButton(
-          child: Text('Accept'),
-          onPressed: () {
-            alert(context);
-          },
-        ),
-      ),
+        Divider(
+          height: 1,
+          color: kAccentColorDark,
+        )
+      ],
     );
   }
 }
