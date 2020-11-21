@@ -96,16 +96,18 @@ class _ConvoScreenState extends State<ConvoScreen> {
                   ),
                   FlatButton(
                     onPressed: () async {
-                      await _fireStore
-                          .collection('chat')
-                          .doc(docId)
-                          .collection('messages')
-                          .add({
-                        'text': messageText,
-                        'timeStamp': DateTime.now(),
-                        'sender': email
-                      });
-                      messageTextController.clear();
+                      if (messageText != null && messageText != '') {
+                        await _fireStore
+                            .collection('chat')
+                            .doc(docId)
+                            .collection('messages')
+                            .add({
+                          'text': messageText,
+                          'timeStamp': DateTime.now(),
+                          'sender': email
+                        });
+                        messageTextController.clear();
+                      }
                     },
                     child: Text(
                       'Send',

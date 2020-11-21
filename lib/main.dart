@@ -60,11 +60,7 @@ class _HomeState extends State<Home> {
 
   void logIn() {
     var data = _sharedPreferences.getStringList('userInfo');
-    var currentUser = _firebaseAuth.currentUser;
-    if (data[0] != null &&
-        data[1] != null &&
-        currentUser != null &&
-        currentUser.email == data[0]) {
+    if (data[0] != null && data[1] != null) {
       var email = data[0];
       var password = data[1];
       try {
