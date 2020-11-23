@@ -91,6 +91,7 @@ class _ForPatientState extends State<ForPatient> {
           final Widget item = ChatTile(
             name: name,
             email: email,
+            chat: chat,
           );
           items.add(item);
         }
